@@ -1,0 +1,7 @@
+[user]
+	email = yukki334@gmail.com
+	name = ShinichiArakawa
+[remote "origin"]
+url = https://ShinichiArakawa:fukumoto1204@github.com/ShinichiArakawa/voiceroidjam5.git
+[credential]
+	helper = cache --timeout=36000

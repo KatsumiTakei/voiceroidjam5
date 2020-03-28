@@ -46,7 +46,7 @@ public class ActorGenerator : MonoBehaviour
     {
         enemyGenerateCnt += generateTempo;
 
-        if (enemyGenerateCnt >= 45f)
+        if (enemyGenerateCnt >= 60f)
         {
             enemyGenerateCnt = 0;
             tempoLevel++;
@@ -55,13 +55,13 @@ public class ActorGenerator : MonoBehaviour
             vanpaia.transform.localPosition = rails[Random.Range(0, 3)];
         }
 
-        weaponGenerateCnt += generateTempo;
-        if (weaponGenerateCnt >= 60f)
+        weaponGenerateCnt += 1f;
+        if (weaponGenerateCnt >= 150f)
         {
             weaponGenerateCnt = 0;
             Weapon weaponPrefab = RandomWithWeight.Lotto(itemDict);
             Weapon weapon = Instantiate(weaponPrefab, transform);
-            weapon.transform.localPosition = rails[Random.Range(0, 3)];
+            weapon.transform.localPosition = rails[Random.Range(0, 3)] - new Vector3(0, -0.3f, 0f);
         }
 
         if (tempoLevel >= 15)

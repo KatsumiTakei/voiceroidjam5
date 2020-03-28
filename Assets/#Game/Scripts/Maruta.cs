@@ -6,6 +6,7 @@ public class Maruta : Weapon
 {
     void Start()
     {
+        Init();
         useCntMax = 10;
     }
 }

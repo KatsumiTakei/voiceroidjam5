@@ -13,10 +13,17 @@ public class Vanpaia : MonoBehaviour
     void Update()
     {
         transform.localPosition += Vector3.left * spd;
+        if (transform.localPosition.x < -6f)
+            Destroy(gameObject);
     }
 
 
     public void HitDamage()
+    {
+        Dead();
+    }
+
+    void Dead()
     {
         Destroy(gameObject);
     }

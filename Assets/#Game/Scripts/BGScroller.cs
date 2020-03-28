@@ -3,9 +3,9 @@ using System.Collections;
 
 public class BGScroller : MonoBehaviour
 {
-    [SerializeField] float scrollSpeed;
+    [SerializeField] float scrollSpeed = 0f;
 
-    [SerializeField] float tileSize;
+    [SerializeField] float tileSize = 0f;
 
     private Vector3 startPosition;
 

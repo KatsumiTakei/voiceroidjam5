@@ -65,8 +65,8 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
             AddSeAudioLisner(audioSourceArray[i]);
         }
 
-        AudioClip[] bgmList = Resources.LoadAll<AudioClip>(Application.dataPath + "/BGM");
-        AudioClip[] seList = Resources.LoadAll<AudioClip>(Application.dataPath + "/SE");
+        AudioClip[] bgmList = Resources.LoadAll<AudioClip>("BGM");
+        AudioClip[] seList = Resources.LoadAll<AudioClip>("SE");
 
         foreach (AudioClip bgm in bgmList)
         {

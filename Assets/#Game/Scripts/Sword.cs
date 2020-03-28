@@ -6,6 +6,7 @@ public class Sword : Weapon
 {
     private void Start()
     {
+        Init();
         useCntMax = 3;
     }
 }

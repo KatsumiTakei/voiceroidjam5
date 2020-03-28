@@ -14,56 +14,65 @@ public class Weapon : MonoBehaviour
     BoxCollider2D boxCollider = null;
     SpriteRenderer spriteRenderer = null;
 
-    private void Start()
+    protected void Init()
     {
         spd = Random.Range(0.01f, 0.07f);
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.flipY = true;
+    }
+
+    public void Attack()
+    {
+        if (useCnt >= useCntMax
+            || boxCollider.enabled)
+            return;
+
+        boxCollider.enabled = true;
+        transform.DOLocalRotate(rotateValue, 0.15f)
+            .OnComplete(onCompleteSwing);
+
+        void onCompleteSwing()
+        {
+            transform.DOLocalRotate(Vector3.zero, 0.25f)
+                .OnComplete(onCompleteSetup);
+        }
+        
+        void onCompleteSetup()
+        {
+            boxCollider.enabled = false;
+            if (++useCnt >= useCntMax)
+                Destroy(gameObject);
+        }
+
+    }
+
+    public void Equipment()
+    {
+        boxCollider.enabled = false;
+        spriteRenderer.flipX = false;
+        spriteRenderer.flipY = false;
     }
 
     private void Update()
     {
         if (!transform.parent.gameObject.CompareTag("Player"))
             transform.localPosition += Vector3.left * spd;
+
+        if (transform.localPosition.y < -6f)
+            Destroy(gameObject);
     }
 
-    public void Attack()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (boxCollider.enabled)
-            return;
-
-        boxCollider.enabled = true;
-        transform.DOLocalRotate(rotateValue, 0.5f)
-            .OnComplete(
-            () => transform.DOLocalRotate(Vector3.zero, 0.5f)
-            .OnComplete(() =>
-            {
-                boxCollider.enabled = false;
-                if (useCnt++ >= useCntMax)
-                {
-                    Destroy(gameObject);
-                }
-            })
-            );
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!transform.parent.gameObject.CompareTag("Player") && collision.gameObject.CompareTag("Player"))
-        {
-            boxCollider.enabled = false;
-            spriteRenderer.flipX = true;
-        }
-
         if (!transform.parent.gameObject.CompareTag("Player"))
             return;
 
         if (collision.gameObject.CompareTag("Vanpaia"))
         {
-            var enemy = GetComponent<Vanpaia>();
+            var enemy = collision.gameObject.GetComponent<Vanpaia>();
             enemy.HitDamage();
         }
-
     }
 
 }

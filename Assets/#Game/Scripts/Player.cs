@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<Sword>();
+        weapon.Equipment();
     }
 
     void Update()
@@ -32,7 +33,6 @@ public class Player : MonoBehaviour
             spriteIndex += 1;
             spriteRenderer.sprite = sprites[spriteIndex];
         }
-
 
         transform.localPosition += moveValue;
         moveValue = Vector3.zero;
@@ -49,14 +49,15 @@ public class Player : MonoBehaviour
         EventManager.OnMultipleInput -= OnMultipleInput;
     }
 
-    bool CanEquipment()
+    public bool CanEquipment()
     {
         return weapon == null;
     }
 
     void HitEnemy()
     {
-        if (life-- <= 0)
+        print("hit");
+        if (--life <= 0)
         {
 
         }
@@ -74,20 +75,26 @@ public class Player : MonoBehaviour
         }
         if (inputType == eInputType.MoveUpKey)
         {
-            moveValue.y += 0.75f;
+            if (transform.localPosition.y < -0.21f)
+                moveValue.y += 0.75f;
         }
         if (inputType == eInputType.MoveDownKey)
         {
-            moveValue.y -= 0.75f;
+            if (transform.localPosition.y > -1.69f)
+                moveValue.y -= 0.75f;
         }
+
+
+
         if (inputType == eInputType.AttackAndDecide)
         {
             weapon.Attack();
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject.CompareTag("Weapon"))
         {
             if (CanEquipment())
@@ -95,6 +102,7 @@ public class Player : MonoBehaviour
                 weapon = collision.gameObject.GetComponent<Weapon>();
                 weapon.transform.parent = transform;
                 weapon.transform.localPosition = new Vector3(0.4f, -0.2f, 0.0f);
+                weapon.Equipment();
             }
         }
 
@@ -102,6 +110,6 @@ public class Player : MonoBehaviour
         {
             HitEnemy();
         }
-
     }
+
 }

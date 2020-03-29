@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class ResultScene : SceneBase
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
-        
+        print("OnEnable ResultScene");
+        //naichilab.RankingLoader.Instance.SendScoreAndShowRanking(ProgressManager.Instance.GetReleaseCnt());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        print("OnDisable ResultScene");
+    }
+
+
+    public void OnMultipleInput(eInputType inputType)
+    {
+        if (inputType == eInputType.Space)
+        {
+            ProgressManager.Instance.MoveScene(eSceneState.Title);
+        }
+    }
+
+    public override void Open()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public override void Close()
+    {
+        gameObject.SetActive(false);
     }
 }

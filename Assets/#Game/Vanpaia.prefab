@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2443889625406532445}
   - component: {fileID: -1021891814843953161}
   - component: {fileID: -5205317737716493680}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Vanpaia
   m_TagString: Vanpaia
   m_Icon: {fileID: 0}

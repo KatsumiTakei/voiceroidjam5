@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using STLExtensiton;
 
+[DefaultExecutionOrder(1)]
 public class Player : MonoBehaviour
 {
+
+    [SerializeField]
+    Weapon defaultWeapon = null;
+
     [SerializeField]
     Sprite[] sprites = null;
 
@@ -17,7 +22,22 @@ public class Player : MonoBehaviour
 
     Weapon weapon = null;
 
-    int life = 3;
+    public int Life { get; set; } = 3;
+
+    bool isInvisible = false;
+    int invisibleCnt = 0;
+    int InvisibleCntMax = 180;
+
+    void Reset()
+    {
+        Life = 3;
+        isInvisible = false;
+        invisibleCnt = 0;
+        InvisibleCntMax = 180;
+
+        weapon = Instantiate(defaultWeapon, transform);
+        weapon.Equipment();
+    }
 
     void Start()
     {
@@ -28,6 +48,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (invisibleCnt++ >= InvisibleCntMax)
+        {
+            invisibleCnt = 0;
+            isInvisible = false;
+        }
         if (animCnt++ % 10 == 0)
         {
             spriteIndex += 1;
@@ -56,22 +81,31 @@ public class Player : MonoBehaviour
 
     void HitEnemy()
     {
-        print("hit");
-        if (--life <= 0)
+        if (isInvisible)
+            return;
+
+        isInvisible = true;
+        invisibleCnt = 0;
+
+        AudioManager.Instance.PlaySE("Damage" + Random.Range(0, 2));
+        if (--Life <= 0)
         {
 
         }
+        EventManager.BroadcatChangeLife(this);
     }
 
     void OnMultipleInput(eInputType inputType)
     {
         if (inputType == eInputType.MoveRightKey)
         {
-            moveValue.x += spd;
+            if (transform.localPosition.x < 4.5f)
+                moveValue.x += spd;
         }
         if (inputType == eInputType.MoveLeftKey)
         {
-            moveValue.x -= spd;
+            if (transform.localPosition.x > -4.5f)
+                moveValue.x -= spd;
         }
         if (inputType == eInputType.MoveUpKey)
         {
@@ -90,6 +124,11 @@ public class Player : MonoBehaviour
         {
             weapon.Attack();
         }
+
+        if (inputType == eInputType.Cancel)
+        {
+            weapon.Dump();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -101,7 +140,6 @@ public class Player : MonoBehaviour
             {
                 weapon = collision.gameObject.GetComponent<Weapon>();
                 weapon.transform.parent = transform;
-                weapon.transform.localPosition = new Vector3(0.4f, -0.2f, 0.0f);
                 weapon.Equipment();
             }
         }

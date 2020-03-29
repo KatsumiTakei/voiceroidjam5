@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ProgressMamager))]
+[RequireComponent(typeof(ProgressManager))]
 [RequireComponent(typeof(AudioManager))]
 public class Toolbox : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class Toolbox : MonoBehaviour
 
     void Start()
     {
+        AudioManager.PlayBGM("BGM");
     }
 
     void Update()

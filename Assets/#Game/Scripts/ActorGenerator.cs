@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using STLExtensiton;
 using UnityDLL;
+using DG.Tweening;
 
 public class ActorGenerator : MonoBehaviour
 {
 
     [SerializeField]
-    Vanpaia vanpaiaPrefab = null;
+    Coin coinPrefab = null;
 
+    [SerializeField]
+    Vanpaia vanpaiaPrefab = null;
+    
     [SerializeField]
     Vector3 topRail = Vector3.zero;
 
@@ -31,6 +35,28 @@ public class ActorGenerator : MonoBehaviour
     float weaponGenerateCnt = 0;
 
     static List<KeyValuePair<Weapon, float>> itemDict = null;
+
+    void OnGenerateCoin(Vector2 generatePos)
+    {
+
+        var coin = Instantiate(coinPrefab, transform);
+        var pos = rails[Random.Range(0, 3)] + new Vector3(0, 1f, 0f);
+        pos.x += Random.Range(-0.1f, 0.5f);
+        coin.transform.localPosition = pos;
+
+        coin.transform.DOLocalMoveY(-1f, 1f).SetRelative();
+    }
+
+    private void OnEnable()
+    {
+        print("dasa");
+        EventManager.OnGenerateCoin += OnGenerateCoin;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnGenerateCoin -= OnGenerateCoin;
+    }
 
     void Start()
     {

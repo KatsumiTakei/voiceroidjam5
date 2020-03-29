@@ -17,6 +17,11 @@ public static class InputManager
             EventManager.BroadcastMultipleInput(eInputType.Cancel);
         }    
         
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EventManager.BroadcastMultipleInput(eInputType.Space);
+        }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             EventManager.BroadcastMultipleInput(eInputType.MoveUpKey);
@@ -51,6 +56,7 @@ public enum eInputType
 
     AttackAndDecide,
     Cancel,
+    Space,
 
     Random = 99,
 

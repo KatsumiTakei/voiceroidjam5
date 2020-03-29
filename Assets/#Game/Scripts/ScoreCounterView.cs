@@ -7,12 +7,12 @@ public class ScoreCounterView
     float tweenspeed = 0.5f;
     float ptsboader = 10f;
 
-    TMPro.TextMeshProUGUI scoretext = null;
+    TMPro.TextMeshPro scoretext = null;
     int drawValue = 0;
 
     const string Digit = "D9";
 
-    public ScoreCounterView(TMPro.TextMeshProUGUI scoretext, float tweenspeed, float ptsboader)
+    public ScoreCounterView(TMPro.TextMeshPro scoretext, float tweenspeed, float ptsboader)
     {
         this.ptsboader = Mathf.Max(ptsboader, 1f);
         this.tweenspeed = Mathf.Clamp(tweenspeed, 0.1f, 5f);

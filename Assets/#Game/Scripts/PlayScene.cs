@@ -19,6 +19,19 @@ public class PlayScene : SceneBase
             blessCnt = 0;
             blessTime = Random.Range(300, 450);
             AudioManager.Instance.PlaySE("Bless2");
+
+
         }
+    }
+
+
+    public override void Open()
+    {
+        enabled = true;
+    }
+
+    public override void Close()
+    {
+        enabled = false;
     }
 }

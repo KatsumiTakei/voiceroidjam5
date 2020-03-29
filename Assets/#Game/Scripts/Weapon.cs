@@ -28,6 +28,8 @@ public class Weapon : MonoBehaviour
             || boxCollider.enabled)
             return;
 
+        AudioManager.Instance.PlaySE("Attack" + Random.Range(0, 2));
+
         boxCollider.enabled = true;
         transform.DOLocalRotate(rotateValue, 0.15f)
             .OnComplete(onCompleteSwing);
@@ -37,14 +39,22 @@ public class Weapon : MonoBehaviour
             transform.DOLocalRotate(Vector3.zero, 0.25f)
                 .OnComplete(onCompleteSetup);
         }
-        
+
         void onCompleteSetup()
         {
             boxCollider.enabled = false;
             if (++useCnt >= useCntMax)
                 Destroy(gameObject);
+
+            EventManager.BroadcastChangeAttackCnt(useCntMax - useCnt);
         }
 
+    }
+
+    public void Dump()
+    {
+        EventManager.BroadcastChangeAttackCnt(0);
+        Destroy(gameObject);
     }
 
     public void Equipment()
@@ -52,15 +62,15 @@ public class Weapon : MonoBehaviour
         boxCollider.enabled = false;
         spriteRenderer.flipX = false;
         spriteRenderer.flipY = false;
+        transform.localPosition = new Vector3(0.4f, -0.2f, 0.0f);
+
+        EventManager.BroadcastChangeAttackCnt(useCntMax);
     }
 
     private void Update()
     {
         if (!transform.parent.gameObject.CompareTag("Player"))
             transform.localPosition += Vector3.left * spd;
-
-        if (transform.localPosition.y < -6f)
-            Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -71,7 +81,7 @@ public class Weapon : MonoBehaviour
         if (collision.gameObject.CompareTag("Vanpaia"))
         {
             var enemy = collision.gameObject.GetComponent<Vanpaia>();
-            enemy.HitDamage();
+            enemy?.HitDamage(transform.position);
         }
     }
 

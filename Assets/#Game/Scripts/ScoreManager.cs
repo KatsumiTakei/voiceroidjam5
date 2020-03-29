@@ -19,22 +19,22 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
-        view = new ScoreCounterView(GetComponent<TMPro.TextMeshProUGUI>(), 0.5f, 10f);
+        view = new ScoreCounterView(GetComponent<TMPro.TextMeshPro>(), 0.5f, 10f);
     }
 
     private void OnEnable()
     {
         //EventManager.OnGameResult += OnGameResult;
-        //EventManager.OnMissAnswer += OnMissAnswer;
-        //EventManager.OnCorrectAnswer += OnCorrectAnswer;
+        EventManager.OnAddScore += OnAddScore;
+        EventManager.OnChangeScore += OnChangeScore;
         EventManager.OnChangeTime += OnChangeTime;
     }
 
     private void OnDisable()
     {
         //EventManager.OnGameResult -= OnGameResult;
-        //EventManager.OnMissAnswer -= OnMissAnswer;
-        //EventManager.OnCorrectAnswer -= OnCorrectAnswer;
+        EventManager.OnAddScore -= OnAddScore;
+        EventManager.OnChangeScore -= OnChangeScore;
         EventManager.OnChangeTime -= OnChangeTime;
     }
 
@@ -48,18 +48,15 @@ public class ScoreManager : MonoBehaviour
         this.currentTime = currentTime;
     }
 
-    void OnCorrectAnswer()
+    void OnAddScore(int addScore)
     {
-        var addScore = (int)System.Math.Floor(1000 * currentTime);
         view.AnimChangeScore(addScore, score);
-        score = Mathf.Min(score + addScore, LimitScore);
     }
 
-    void OnMissAnswer()
+    void OnChangeScore(int score)
     {
-        var addScore = -1000;
-        view.AnimChangeScore(addScore, score);
-        score = Mathf.Max(score + addScore, 0);
+        this.score = score;
+        view.AnimChangeScore(0, score);
     }
 
 }

@@ -21,6 +21,6 @@ public class LineRenserManager : SingletonMonoBehaviour<LineRenserManager>
         lineRenderer.SetPosition(0, start);
         lineRenderer.SetPosition(1, end);
 
-        lineRenderer.DOColor(new Color2(Color.red, Color.red), new Color2(Color.clear, Color.clear), 0.5f);
+        lineRenderer.DOColor(new Color2(Color.red, Color.red), new Color2(Color.clear, Color.clear), 1f);
     }
 }

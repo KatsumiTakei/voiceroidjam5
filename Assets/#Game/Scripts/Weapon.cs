@@ -54,7 +54,8 @@ public class Weapon : MonoBehaviour
     public void Dump()
     {
         EventManager.BroadcastChangeAttackCnt(0);
-        Destroy(gameObject);
+        if(gameObject)
+            Destroy(gameObject);
     }
 
     public void Equipment()

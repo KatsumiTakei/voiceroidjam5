@@ -5,7 +5,6 @@ using UnityEngine;
 public class Vanpaia : MonoBehaviour
 {
     float spd = 0.1f;
-    BoxCollider2D boxCollider = null;
     Rigidbody2D rigid = null;
 
     bool isDead = false;
@@ -13,7 +12,6 @@ public class Vanpaia : MonoBehaviour
     private void Start()
     {
         spd = Random.Range(0.005f, 0.05f);
-        boxCollider = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
     }
 
@@ -33,13 +31,15 @@ public class Vanpaia : MonoBehaviour
 
         isDead = true;
 
-        VanpaiaCutter.Cut(cutPos, transform.position + GetComponent<Collider2D>().bounds.size);
-        LineRenserManager.Instance.ViewLine(cutPos, transform.position + GetComponent<Collider2D>().bounds.size);
+        var collider = GetComponent<Collider2D>();
+
+        VanpaiaCutter.Cut(cutPos, transform.position + collider.bounds.size);
+        LineRenserManager.Instance.ViewLine(cutPos, transform.position + collider.bounds.size);
 
         rigid.gravityScale = 0.98f;
         rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        boxCollider.enabled = false;
+        collider.enabled = false;
 
         EventManager.BroadcastGenerateCoin(transform.localPosition);
         AudioManager.Instance.PlaySE("Scream");

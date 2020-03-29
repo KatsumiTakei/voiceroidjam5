@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(1)]
 [RequireComponent(typeof(ProgressManager))]
 [RequireComponent(typeof(AudioManager))]
 public class Toolbox : MonoBehaviour
 {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    static void Initialize()
-    {
-        new GameObject("Manager", typeof(Toolbox));
-    }
-
-
     void Start()
     {
         AudioManager.PlayBGM("BGM");

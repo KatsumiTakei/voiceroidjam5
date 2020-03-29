@@ -10,6 +10,7 @@ public class ActorGenerator : MonoBehaviour
 
     [SerializeField]
     Coin coinPrefab = null;
+    
 
     [SerializeField]
     Vanpaia vanpaiaPrefab = null;
@@ -49,7 +50,6 @@ public class ActorGenerator : MonoBehaviour
 
     private void OnEnable()
     {
-        print("dasa");
         EventManager.OnGenerateCoin += OnGenerateCoin;
     }
 

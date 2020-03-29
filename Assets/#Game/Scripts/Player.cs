@@ -28,22 +28,33 @@ public class Player : MonoBehaviour
     int invisibleCnt = 0;
     int InvisibleCntMax = 180;
 
-    void Reset()
+    public void Reset()
     {
+        transform.localPosition = new Vector3(-4f, -0.2f);
+
         Life = 3;
+        EventManager.BroadcatChangeLife(this);
+
         isInvisible = false;
         invisibleCnt = 0;
         InvisibleCntMax = 180;
 
         weapon = Instantiate(defaultWeapon, transform);
+
+        StartCoroutine(CoEquipment());
+    }
+
+    IEnumerator CoEquipment()
+    {
+        yield return new WaitForEndOfFrame();
+
         weapon.Equipment();
+
     }
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        weapon = GetComponentInChildren<Sword>();
-        weapon.Equipment();
     }
 
     void Update()
@@ -72,6 +83,9 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         EventManager.OnMultipleInput -= OnMultipleInput;
+
+        weapon?.Dump();
+        weapon = null;
     }
 
     public bool CanEquipment()
@@ -90,7 +104,7 @@ public class Player : MonoBehaviour
         AudioManager.Instance.PlaySE("Damage" + Random.Range(0, 2));
         if (--Life <= 0)
         {
-
+            EventManager.BroadcastGameResult();
         }
         EventManager.BroadcatChangeLife(this);
     }

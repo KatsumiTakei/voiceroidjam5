@@ -37,27 +37,27 @@ public class ProgressManager : SingletonMonoBehaviour<ProgressManager>
     SceneBase currentScene = null;
 
 
+    void OnGameResult()
+    {
+        MoveScene(eSceneState.Result);
+    }
+
     private void Start()
     {
-        //currentScene = titleScene;
-        //titleScene.gameObject.SetActive(true);
-        //playScene.enabled = false;
-        //resultScene.gameObject.SetActive(false);
-
-        Reset();
+        currentScene = titleScene;
+        titleScene.gameObject.SetActive(true);
+        playScene.gameObject.SetActive(false);
+        resultScene.gameObject.SetActive(false);
     }
 
     void OnEnable()
     {
+        EventManager.OnGameResult += OnGameResult;
     }
 
     void OnDisable()
     {
-    }
-
-    public void Reset()
-    {
-        UpdateHUD();
+        EventManager.OnGameResult -= OnGameResult;
     }
 
     void UpdateHUD()
@@ -76,7 +76,6 @@ public class ProgressManager : SingletonMonoBehaviour<ProgressManager>
         switch (sceneState)
         {
             case eSceneState.Title:
-                Reset();
                 currentScene = titleScene;
                     break;
             case eSceneState.Play:

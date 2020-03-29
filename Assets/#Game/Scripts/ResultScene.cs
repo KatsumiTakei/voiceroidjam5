@@ -8,7 +8,6 @@ public class ResultScene : SceneBase
     private void OnEnable()
     {
         print("OnEnable ResultScene");
-        //naichilab.RankingLoader.Instance.SendScoreAndShowRanking(ProgressManager.Instance.GetReleaseCnt());
     }
 
     private void OnDisable()

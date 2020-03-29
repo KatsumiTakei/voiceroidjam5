@@ -238,6 +238,7 @@ namespace naichilab
         {
             closeButton.interactable = false;
             UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("Ranking");
+            ProgressManager.Instance.MoveScene(eSceneState.Title);
         }
 
         private void MaskOffOn()

@@ -6,7 +6,6 @@ using DG.Tweening;
 public class ScoreManager : MonoBehaviour
 {
     int score = 0;
-    double currentTime = 0;
 
     ScoreCounterView view = null;
     public const int LimitScore = 999999999;
@@ -24,39 +23,33 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //EventManager.OnGameResult += OnGameResult;
+        EventManager.OnGameResult += OnGameResult;
         EventManager.OnAddScore += OnAddScore;
         EventManager.OnChangeScore += OnChangeScore;
-        EventManager.OnChangeTime += OnChangeTime;
     }
 
     private void OnDisable()
     {
-        //EventManager.OnGameResult -= OnGameResult;
+        EventManager.OnGameResult -= OnGameResult;
         EventManager.OnAddScore -= OnAddScore;
         EventManager.OnChangeScore -= OnChangeScore;
-        EventManager.OnChangeTime -= OnChangeTime;
     }
 
-    //void OnGameResult(bool isResult)
-    //{
-    //    naichilab.RankingLoader.Instance.SendScoreAndShowRanking(score);
-    //}
-
-    void OnChangeTime(float currentTime)
+    void OnGameResult()
     {
-        this.currentTime = currentTime;
+        naichilab.RankingLoader.Instance.SendScoreAndShowRanking(score);
     }
 
     void OnAddScore(int addScore)
     {
-        view.AnimChangeScore(addScore, score);
+        score += addScore;
+        view?.AnimChangeScore(addScore, score);
     }
 
     void OnChangeScore(int score)
     {
         this.score = score;
-        view.AnimChangeScore(0, score);
+        view?.AnimChangeScore(0, score);
     }
 
 }
